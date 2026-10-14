@@ -37,6 +37,7 @@
 | `art/globe/globe-express.html` | 匯入 Adobe Express 用的單頁 HTML |
 | `art/globe/globe-data.json` | 量測參數：球心/半徑、經緯網、節點、連線、陸地輪廓、點陣 |
 | `tools/build_globe_svg.py` | 產生 SVG |
+| `tools/build_globe_express.py` | 由 `globe.svg` 產生 Express 匯入頁 |
 | `tools/bezierfit.py` | 輪廓 → 少錨點三次 Bézier（去抖動、只保留真角點、切線連續） |
 
 重建方法：
@@ -51,3 +52,8 @@
   （間距 7.5 px，帶球面收縮），以虛線筆畫（dash 0 + 圓端點）繪製，
   每一排點只需 2 個錨點。
 - **光效**：放射／線性漸層 + 高斯模糊濾鏡（節點光暈、連線輝光、點陣柔光、球緣高光）。
+
+Adobe Express 匯入說明：Express 的 HTML 匯入器會把每個 SVG 元素拆成獨立可編輯圖層，
+但會丟掉 `stroke-linecap`、`clip-path` 與群組濾鏡。因此 `globe-express.html` 採混合式：
+海洋、淺色陸地、經緯網、連線、航線、節點、球緣都是原生可編輯向量圖層；
+只有需要被丟掉之功能的三層（點陣大陸、連線輝光、節點光暈）以內嵌 SVG 圖片匯入。
